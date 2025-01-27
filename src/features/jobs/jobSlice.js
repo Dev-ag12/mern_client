@@ -6,7 +6,7 @@ const API_URL = import.meta.env.VITE_API_BASE_URL; // Adjust API URL
 // Async thunk to fetch jobs
 export const fetchJobs = createAsyncThunk("jobs/fetchJobs", async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.get(API_URL);
+    const response = await axios.get(`${API_URL}/api`);
     return response.data; // Return job data
   } catch (error) {
     return rejectWithValue(error.response?.data || "Failed to fetch jobs");
