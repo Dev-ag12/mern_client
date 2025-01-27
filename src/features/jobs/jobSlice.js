@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/jobs"; // Adjust API URL
+const API_URL = import.meta.env.VITE_API_BASE_URL; // Adjust API URL
 
 // Async thunk to fetch jobs
 export const fetchJobs = createAsyncThunk("jobs/fetchJobs", async (_, { rejectWithValue }) => {

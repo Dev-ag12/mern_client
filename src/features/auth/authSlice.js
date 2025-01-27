@@ -1,12 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const API = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+  withCredentials: true, // If your backend requires credentials
+});
+
+
 // ✅ Register Company
 export const register = createAsyncThunk(
   'auth/register',
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/api/companies/register', userData);
+      const response = await API.post('/api/companies/register', userData);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -19,7 +25,7 @@ export const login = createAsyncThunk(
   'auth/login',
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`/api/companies/login`, userData);
+      const response = await API.post(`/api/companies/login`, userData);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -32,7 +38,7 @@ export const sendEmailOTP = createAsyncThunk(
   'auth/sendEmailOTP',
   async (email, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`/api/companies/verify-email`, { email });
+      const response = await API.post(`/api/companies/verify-email`, { email });
       
       // Store OTP in localStorage
       localStorage.setItem('emailOtp', response.data.otp);
@@ -71,7 +77,7 @@ export const sendMobileOTP = createAsyncThunk(
   'auth/sendMobileOTP',
   async (mobile, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`/api/companies/verify-mobile`, { mobile });
+      const response = await API.post(`/api/companies/verify-mobile`, { mobile });
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -84,7 +90,7 @@ export const verifyMobileOTP = createAsyncThunk(
   'auth/verifyMobileOTP',
   async ({ mobile, otp }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`/api/companies/verify-mobile-otp`, { mobile, otp });
+      const response = await API.post(`/api/companies/verify-mobile-otp`, { mobile, otp });
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);

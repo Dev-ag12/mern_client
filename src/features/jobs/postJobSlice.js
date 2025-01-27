@@ -3,6 +3,10 @@ import axios from "axios";
 
 // Define API endpoint
 // const API_URL = "http://localhost:3000/api/jobs"; // Change this to match your backend URL
+const API = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+  withCredentials: true, // If your backend requires credentials
+});
 
 export const postJob = createAsyncThunk(
     "jobs/postJob",
@@ -12,7 +16,7 @@ export const postJob = createAsyncThunk(
         const token = getState().auth.token || localStorage.getItem("token");
   
         // Set Authorization header
-        const response = await axios.post('/api/jobs', jobData, {
+        const response = await API.post('/api/jobs', jobData, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`, // 🔥 Add Bearer token here
